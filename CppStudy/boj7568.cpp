@@ -51,7 +51,6 @@ int main(void) {
 	}
 
 	for (int i = 0; i <n-1; i++) {
-
 		cout << answer[i] << " ";
 	}
 	cout << answer[n - 1];
