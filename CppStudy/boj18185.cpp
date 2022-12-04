@@ -19,36 +19,41 @@ int main() {
 	int tot = 0;
 	for (int i = 0; i < N; i++) {
 		int a = nums[i];
-
-		if (a == 0)
-			continue;
-
 		int b = nums[i + 1];
 		int c = nums[i + 2];
 
-		if (b == 0) {
-			tot += a * 3;
-			continue;
-		}
-		
-		
-		if (c == 0) {
-			int minNum = min(a, b);
-			tot += minNum * 5;
-			nums[i] -= minNum;
-			nums[i + 1] -= minNum;
-			tot += nums[i] * 3;
+
+		if (b > c) {
+			int minNum = min(a, b - c);
+			tot += 5 * minNum;
+
+			a -= minNum;
+			b -= minNum;
+
+			minNum = min(a, min(b, c));
+			tot += 7 * minNum;
+
+			nums[i] = a - minNum;
+			nums[i + 1] = b - minNum;
+			nums[i + 2] = c - minNum;
 		}
 		else {
-			int minNum = min(min(a, b), c);
-			tot += minNum * 7;
-			nums[i] -= minNum;
-			nums[i + 1] -= minNum;
-			nums[i + 2] -= minNum;
-			i--;
+			int minNum = min(a, min(b, c));
+			tot += 7 * minNum;
+
+			a -= minNum;
+			b -= minNum;
+			c -= minNum;
+
+			minNum = min(a, b);
+			tot += 5 * minNum;
+
+			nums[i] = a - minNum;
+			nums[i + 1] = b - minNum;
+			nums[i + 2] = c;
 		}
-		
-		
+
+		tot += 3 * nums[i];
 	}
 	cout << tot;
 }
