@@ -9,35 +9,49 @@ int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(NULL); cout.tie(NULL);
 
-
 	int s;
 	cin >> s;
 
-	// 1개 없애기
-	// 화면에 있는 이모티콘 개수 만큼 클립보드에 더하기
-	// 화면에 클립보드 
-
 	int ans = 2000;
-	int dp[1000] = {2000, };
+	int dp[3000][3000];
 
-	// first = { 임티 개수, 시간 }
-	// second = 화면에 있는지 
-	queue<pair<pair<int, int>, bool>> q;
-	q.push({ {1,0},true });
+	// dp { 개수, 클립 개수 }
+	queue<pair<int, int>> q;
+	q.push({1,0});
 	
-	dp[1] = 1;
+	dp[1][0] = 1;
 	
 	while (!q.empty()) {
-		pair<int, int> p = q.front().first;
-		bool isDisplay = q.front().second;
-
+		auto cur = q.front();
 		q.pop();
-		
-		if (isDisplay) {
 
+
+		int n = cur.first;
+		int c = cur.second;
+
+		if (n == s) {
+			cout << dp[n][c] - 1 << "\n";
+			break;
 		}
-		else {
 
+		int nC = n;
+		if (dp[n][nC] == 0) {
+			q.push({ n, nC });
+			dp[n][nC] = dp[n][c] + 1;
+		}
+
+		if (n + c <= s) {
+			if (dp[n + c][c] == 0) {
+				q.push({ n + c,c });
+				dp[n + c][c] = dp[n][c] + 1;
+			}
+		}
+
+		if (n > 0) {
+			if (dp[n - 1][c] == 0) {
+				q.push({ n - 1, c });
+				dp[n - 1][c] = dp[n][c] + 1;
+			}
 		}
 	}
 	
